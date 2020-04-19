@@ -4,14 +4,16 @@ import com.google.common.collect.Lists;
 import hudson.Extension;
 import hudson.model.Descriptor;
 import hudson.model.Job;
-import hudson.model.TopLevelItem;
 import hudson.plugins.view.dashboard.DashboardPortlet;
 import hudson.security.ACL;
 import hudson.security.ACLContext;
 import jenkins.model.Jenkins;
 import org.kohsuke.stapler.DataBoundConstructor;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * Portlet to calculate all changes for a build
