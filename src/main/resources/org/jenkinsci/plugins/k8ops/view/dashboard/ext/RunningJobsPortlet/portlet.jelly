@@ -1,0 +1,40 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:l="/lib/layout" xmlns:t="/lib/hudson"
+  xmlns:dp="/hudson/plugins/view/dashboard">
+  <dp:decorate portlet="${it}" width="${w}">
+    <j:forEach var="row" items="${it.jobs}">
+      <tr>
+        <j:forEach var="job" items="${row}">
+          <td style="border: 1px solid #bbb;">
+            <j:if test="${job.buildable and job.hasPermission(job.BUILD)}">
+              <j:set var="id" value="${h.generateId()}"/>
+              <a href="${job.shortUrl}build?delay=0sec">
+                <j:choose>
+                  <j:when test="${job.parameterized}">
+                    <j:set var="onclick" value="${null}"/>
+                  </j:when>
+                  <j:otherwise>
+                    <j:set var="onclick"
+                      value="return build_${id}(this)"/>
+                  </j:otherwise>
+                </j:choose>
+                <l:icon class="icon-clock icon-sm"
+                  title="${%Schedule a build}" alt="${%Schedule a build}"
+                  onclick="${onclick}"
+                  style="float: right; clear: none;"/>
+              </a>
+              <script>
+                function build_${id}(img) {
+                  new Ajax.Request(img.parentNode.href);
+                  hoverNotification('${%Build scheduled}', img, -100);
+                  return false;
+                }
+              </script>
+            </j:if>
+            <t:jobLink job="${job}"/>
+          </td>
+        </j:forEach>
+      </tr>
+    </j:forEach>
+  </dp:decorate>
+</j:jelly>
